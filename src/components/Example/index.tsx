@@ -12,7 +12,7 @@ export function Example({ className, title = 'Example' }: ExampleProps) {
     <div className={cn(styles.container, className)}>
       <a
         target="_blank"
-        href="https://github.com/MagicCube/boilerplate-2021"
+        href="https://github.com/MagicCube/tesla-mobile-app"
         rel="noreferrer"
       >
         <img
