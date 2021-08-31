@@ -34,8 +34,9 @@ export class TeslaScenePlay extends ScenePlay {
     this.explode(0);
 
     this.assembly(6000);
-    await this.moveCamera(
-      [-5.8356834892220375, 4.567450211769818, -3.4891564032644835],
+    await this.panCamera(
+      [-6.314698976467599, 3.1795233521232915, -5.916186446301282],
+      [-0.10510654963204777, -3.6766618001426745, -0.40487639458051106],
       4000
     );
   }
