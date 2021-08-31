@@ -1,5 +1,13 @@
 import { Euler, Object3D, Vector3, Vector3Tuple } from 'three';
 
+export function rnd(num: number, bothPositiveAndNegative = true) {
+  if (bothPositiveAndNegative) {
+    return Math.random() * num * 2 - num;
+  } else {
+    return Math.random() * num;
+  }
+}
+
 export function vector3(point: Vector3 | Vector3Tuple): Vector3 {
   if (Array.isArray(point) && point.length === 3) {
     return new Vector3(point[0], point[1], point[2]);
