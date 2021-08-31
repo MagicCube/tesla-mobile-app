@@ -13,8 +13,8 @@ export function Root() {
       if (percentage > 1) {
         percentage = 1;
       }
-      if (percentage < 0) {
-        percentage = 0;
+      if (percentage < 0.1) {
+        percentage = 0.1;
       }
       setCanvasOpacity(percentage);
     }
@@ -28,6 +28,7 @@ export function Root() {
   return (
     <>
       <div className={styles.fixed}>
+        <Header />
         <ScenePlay className={styles.scenePlay} opacity={opacity} />
       </div>
       <div className={styles.scrollable}>
