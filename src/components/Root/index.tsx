@@ -1,11 +1,16 @@
+import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 
+import { allowAnimation, openingAnimationDuration } from '@/config';
+
+import { Header } from '../Header';
 import { ScenePlayWrapper as ScenePlay } from '../ScenePlayWrapper';
 
 import styles from './index.module.less';
 
 export function Root() {
   const [opacity, setCanvasOpacity] = useState(1);
+  const [pageVisible, setPageVisible] = useState(!allowAnimation);
   const handleScroll = useCallback(() => {
     if (document.scrollingElement) {
       const scrollable = document.scrollingElement;
@@ -20,6 +25,14 @@ export function Root() {
     }
   }, []);
   useEffect(() => {
+    document.body.style.overflowY = pageVisible ? 'auto' : 'hidden';
+  }, [pageVisible]);
+  useEffect(() => {
+    if (allowAnimation) {
+      setTimeout(() => {
+        setPageVisible(true);
+      }, openingAnimationDuration - 1500);
+    }
     document.addEventListener('scroll', handleScroll, true);
     return () => {
       document.removeEventListener('scroll', handleScroll, true);
@@ -27,11 +40,18 @@ export function Root() {
   }, [handleScroll]);
   return (
     <>
-      <div className={styles.fixed}>
+      <ScenePlay className={styles.scenePlay} opacity={opacity} />
+      <div
+        className={cn(styles.fixed, pageVisible ? undefined : styles.hidden)}
+      >
         <Header />
-        <ScenePlay className={styles.scenePlay} opacity={opacity} />
       </div>
-      <div className={styles.scrollable}>
+      <div
+        className={cn(
+          styles.scrollable,
+          pageVisible ? undefined : styles.hidden
+        )}
+      >
         <main className={styles.content}>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque dolore
           culpa perspiciatis quos dolor ab quod obcaecati minus exercitationem

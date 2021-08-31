@@ -1,4 +1,6 @@
-.fixed {
+@import '@/styles/theme.less';
+
+.fixed, .scenePlay {
   position: fixed;
   left: 0;
   right: 0;
@@ -6,16 +8,31 @@
   bottom: 0;
 }
 
+.fixed {
+  padding: @page-padding;
+  pointer-events: none;
+  transition: opacity ease-in-out 1s;
+}
+
+.fixed.hidden {
+  opacity: 0;
+}
+
 .scrollable {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-  padding: 50vh 24px 24px 24px;
+  padding: 50vh @page-padding @page-padding @page-padding;
   pointer-events: none;
+  transition: all ease-in-out 1s;
 
   * {
     pointer-events: all;
   }
 }
 
+.scrollable.hidden {
+  padding-top: 75vh;
+  opacity: 0;
+}
