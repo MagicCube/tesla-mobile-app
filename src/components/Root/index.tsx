@@ -31,7 +31,7 @@ export function Root() {
     if (allowAnimation) {
       setTimeout(() => {
         setPageVisible(true);
-      }, openingAnimationDuration - 1500);
+      }, openingAnimationDuration - 1000);
     }
     document.addEventListener('scroll', handleScroll, true);
     return () => {
