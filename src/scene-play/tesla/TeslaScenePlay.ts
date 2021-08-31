@@ -2,6 +2,8 @@ import { Easing } from '@tweenjs/tween.js';
 import { Color, Vector3 } from 'three';
 import { SelectControls } from '../controls/SelectControls';
 
+import { openingAnimationDuration } from '@/config';
+
 import { ScenePlay, ScenePlayOptions } from '../ScenePlay';
 
 import { TeslaModel3 } from './TeslaModel3';
@@ -35,12 +37,12 @@ export class TeslaScenePlay extends ScenePlay {
     await this.model.load();
 
     this.model.explode(0);
-    this.model.assembly(6000);
+    this.model.assembly(openingAnimationDuration);
 
     await this.panCamera(
-      [-6.314698976467599, 3.1795233521232915, -5.916186446301282],
-      [-0.10510654963204777, -3.6766618001426745, -0.40487639458051106],
-      6000
+      [-2.0630454676789407, 3.740821669151607, -7.351070916224511],
+      [0.07093096967317583, -3.8602772541774777, -0.029166030311569762],
+      openingAnimationDuration
     );
 
     if (this.allowAnimation) {
