@@ -35,7 +35,7 @@ export function Root() {
     });
     setTimeout(() => {
       setPageVisible(true);
-    }, openingAnimationDuration - 1200);
+    }, openingAnimationDuration - 1600);
   }, []);
   const handleScenePlayProgress = useCallback((e) => {
     console.info(e.loaded);
