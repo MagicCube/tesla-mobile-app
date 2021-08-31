@@ -36,6 +36,8 @@ export class TeslaScenePlay extends ScenePlay {
     this.scene.add(this.model);
     await this.model.load();
 
+    this.dispatchEvent({ type: 'load' });
+
     this.playOpeningAnimation();
   }
 

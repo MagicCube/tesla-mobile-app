@@ -8,11 +8,13 @@ import styles from './index.module.less';
 export interface ScenePlayWrapperProps {
   className?: string;
   opacity?: number;
+  onLoad?: () => void;
 }
 
 export function ScenePlayWrapper({
   className,
   opacity,
+  onLoad,
 }: ScenePlayWrapperProps) {
   const scenePlayRef = useRef<TeslaScenePlay | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,19 +42,24 @@ export function ScenePlayWrapper({
       const scenePlay = new TeslaScenePlay(canvasRef.current, {
         size: getWindowSize(),
       });
+      scenePlay.addEventListener('load', () => {
+        if (typeof onLoad === 'function') {
+          onLoad();
+        }
+      });
       scenePlay.init();
       scenePlay.play();
 
       scenePlayRef.current = scenePlay;
     }
-  }, []);
+  }, [onLoad]);
   return (
     <canvas
       ref={canvasRef}
       className={cn(styles.container, className)}
       style={{
         opacity,
-        filter: opacity ? `blur(${(1 - opacity)}rem)` : 'none',
+        filter: opacity ? `blur(${1 - opacity}rem)` : 'none',
       }}
     />
   );
