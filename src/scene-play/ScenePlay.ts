@@ -1,29 +1,34 @@
 import {
   AmbientLight,
   DirectionalLight,
+  EventDispatcher,
   Light,
   PerspectiveCamera,
   PointLight,
   Scene,
+  Vector3,
   Vector3Tuple,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { update as updateAllTweens } from '@tweenjs/tween.js';
+import { Easing, Tween, update as updateAllTweens } from '@tweenjs/tween.js';
 
-export interface Size {
-  width: number;
-  height: number;
-}
+import { Size } from './types';
+import { vector3, vectorToJSON } from './util';
 
 export interface ScenePlayOptions {
   size: Size;
   camera?: {
     fov?: number;
+    position?: Vector3 | Vector3Tuple;
+    target?: Vector3 | Vector3Tuple;
+    easing?: EasingFunction;
   };
 }
 
-export class ScenePlay {
+export type EasingFunction = (amount: number) => number;
+
+export class ScenePlay extends EventDispatcher {
   private _size: Size;
   private _renderer: WebGLRenderer;
   private _scene: Scene;
@@ -33,6 +38,8 @@ export class ScenePlay {
   private _options: ScenePlayOptions;
 
   constructor(canvas: HTMLCanvasElement, options: ScenePlayOptions) {
+    super();
+
     this._options = options;
     this._size = options.size;
     this._renderer = new WebGLRenderer({
@@ -44,10 +51,6 @@ export class ScenePlay {
     this._camera = new PerspectiveCamera(options.camera?.fov || 75);
     this._camera.name = 'main-camera';
     this._orbitControls = new OrbitControls(this._camera, this.canvas);
-
-    (window as any).debug = () => {
-      console.info(this.camera.position.toArray());
-    };
   }
 
   get canvas() {
@@ -81,13 +84,53 @@ export class ScenePlay {
     return this._options;
   }
 
+  init() {
+    this.resizeTo(this.size);
+    this.setup();
+  }
+
   play() {
     this.animate(0);
   }
 
-  init() {
-    this.resizeTo(this.size);
-    this.setup();
+  debug() {
+    console.info(
+      this.camera.position.toArray(),
+      this._orbitControls.target.toArray()
+    );
+  }
+
+  panCamera(
+    position: Vector3 | Vector3Tuple,
+    target: Vector3 | Vector3Tuple,
+    duration: number = 1200,
+    easing?: EasingFunction
+  ) {
+    const positionJSON = vectorToJSON(position);
+    const targetJSON = vectorToJSON(target);
+    return new Promise<void>((resolve) => {
+      new Tween(this.camera)
+        .to(
+          {
+            position: positionJSON,
+            target: targetJSON,
+          },
+          duration
+        )
+        .onComplete(() => {
+          resolve();
+        })
+        .easing(easing || this.options.camera?.easing || Easing.Linear.None)
+        .start();
+    });
+  }
+
+  moveCamera(
+    position: Vector3 | Vector3Tuple,
+    duration: number = 1200,
+    easing?: EasingFunction
+  ) {
+    return this.panCamera(position, [0, 0, 0], duration, easing);
   }
 
   protected setup() {
@@ -101,7 +144,8 @@ export class ScenePlay {
   protected setupRenderer() {}
 
   protected setupCamera() {
-    this._camera.position.set(0, 0, 1);
+    const position = vector3(this.options.camera?.position || [0, 0, 1]);
+    this._camera.position.copy(position);
   }
 
   protected setupLights() {
@@ -137,6 +181,8 @@ export class ScenePlay {
 
   protected setupControls() {
     this._orbitControls.enableDamping = true;
+    const target = vector3(this.options.camera?.target || [0, 0, 0]);
+    this._orbitControls.target.copy(target);
   }
 
   protected animate(time: number) {
