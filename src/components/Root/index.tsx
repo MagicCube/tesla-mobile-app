@@ -24,15 +24,15 @@ export function Root() {
       setCanvasOpacity(percentage);
     }
   }, []);
+  const handleScenePlayLoad = useCallback(() => {
+    setTimeout(() => {
+      setPageVisible(true);
+    }, openingAnimationDuration - 1200);
+  }, []);
   useEffect(() => {
     document.body.style.overflowY = pageVisible ? 'auto' : 'hidden';
   }, [pageVisible]);
   useEffect(() => {
-    if (allowAnimation) {
-      setTimeout(() => {
-        setPageVisible(true);
-      }, openingAnimationDuration - 1000);
-    }
     document.addEventListener('scroll', handleScroll, true);
     return () => {
       document.removeEventListener('scroll', handleScroll, true);
@@ -40,7 +40,11 @@ export function Root() {
   }, [handleScroll]);
   return (
     <>
-      <ScenePlay className={styles.scenePlay} opacity={opacity} />
+      <ScenePlay
+        className={styles.scenePlay}
+        opacity={opacity}
+        onLoad={handleScenePlayLoad}
+      />
       <div
         className={cn(styles.fixed, pageVisible ? undefined : styles.hidden)}
       >
