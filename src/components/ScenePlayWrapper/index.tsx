@@ -9,12 +9,14 @@ export interface ScenePlayWrapperProps {
   className?: string;
   opacity?: number;
   onLoad?: () => void;
+  onProgress?: (e: ProgressEvent) => void;
 }
 
 export function ScenePlayWrapper({
   className,
   opacity,
   onLoad,
+  onProgress,
 }: ScenePlayWrapperProps) {
   const scenePlayRef = useRef<TeslaScenePlay | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -47,12 +49,17 @@ export function ScenePlayWrapper({
           onLoad();
         }
       });
+      scenePlay.addEventListener('progress', (e) => {
+        if (typeof onProgress === 'function') {
+          onProgress(e as ProgressEvent);
+        }
+      });
       scenePlay.init();
       scenePlay.play();
 
       scenePlayRef.current = scenePlay;
     }
-  }, [onLoad]);
+  }, [onLoad, onProgress]);
   return (
     <canvas
       ref={canvasRef}

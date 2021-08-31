@@ -9,7 +9,11 @@ import { ScenePlayWrapper as ScenePlay } from '../ScenePlayWrapper';
 import styles from './index.module.less';
 
 export function Root() {
-  const [opacity, setCanvasOpacity] = useState(1);
+  const [loading, setLoading] = useState({
+    percentage: 0,
+    status: '正在加载 3D 模型...',
+  });
+  const [scenePlayOpacity, setScenePlayOpacity] = useState(1);
   const [pageVisible, setPageVisible] = useState(!allowAnimation);
   const handleScroll = useCallback(() => {
     if (document.scrollingElement) {
@@ -21,13 +25,27 @@ export function Root() {
       if (percentage < 0.1) {
         percentage = 0.1;
       }
-      setCanvasOpacity(percentage);
+      setScenePlayOpacity(percentage);
     }
   }, []);
   const handleScenePlayLoad = useCallback(() => {
+    setLoading({
+      percentage: 100,
+      status: '加载已完成',
+    });
     setTimeout(() => {
       setPageVisible(true);
     }, openingAnimationDuration - 1200);
+  }, []);
+  const handleScenePlayProgress = useCallback((e) => {
+    console.info(e.loaded);
+    setLoading({
+      percentage: e.loaded / 314079,
+      status:
+        e.loaded / 314079 === 1
+          ? '正在加载模型材质...'
+          : '正在加载模型...',
+    });
   }, []);
   useEffect(() => {
     document.body.style.overflowY = pageVisible ? 'auto' : 'hidden';
@@ -38,12 +56,15 @@ export function Root() {
       document.removeEventListener('scroll', handleScroll, true);
     };
   }, [handleScroll]);
+
+  const isLoading = loading.percentage < 100;
   return (
     <>
       <ScenePlay
         className={styles.scenePlay}
-        opacity={opacity}
+        opacity={scenePlayOpacity}
         onLoad={handleScenePlayLoad}
+        onProgress={handleScenePlayProgress}
       />
       <div
         className={cn(styles.fixed, pageVisible ? undefined : styles.hidden)}
@@ -100,6 +121,11 @@ export function Root() {
           vel. Aperiam, fugiat consequatur. Repellendus, distinctio totam
           explicabo excepturi voluptatum aut.
         </main>
+      </div>
+      <div
+        className={cn(styles.overlay, isLoading ? undefined : styles.hidden)}
+      >
+        {loading.status}
       </div>
     </>
   );

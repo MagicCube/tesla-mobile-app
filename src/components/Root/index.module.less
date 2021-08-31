@@ -1,6 +1,8 @@
 @import '@/styles/theme.less';
 
-.fixed, .scenePlay {
+.fixed,
+.scenePlay,
+.overlay {
   position: fixed;
   left: 0;
   right: 0;
@@ -35,4 +37,26 @@
 .scrollable.hidden {
   padding-top: 75vh;
   opacity: 0;
+}
+
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: @body-background;
+  animation: twinkle 1s infinite alternate-reverse;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+@keyframes twinkle {
+  from {
+    color: rgba(@foreground-color, 1);
+  }
+
+  to {
+    color: rgba(@foreground-color, 0.2);
+  }
 }
