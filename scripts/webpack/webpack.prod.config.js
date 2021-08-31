@@ -1,6 +1,9 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common.config');
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const htmlWebpackPlugin = common.plugins.find(
   (p) => p.constructor.name === 'HtmlWebpackPlugin'
@@ -21,4 +24,13 @@ if (htmlWebpackPlugin) {
 
 module.exports = merge(common, {
   mode: 'production',
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, '../../public'),
+        },
+      ],
+    }),
+  ],
 });
