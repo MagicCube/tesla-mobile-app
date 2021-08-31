@@ -6,7 +6,7 @@ import { ScenePlay, ScenePlayOptions } from '../ScenePlay';
 
 import { TeslaModel3 } from './TeslaModel3';
 
-import styles from '../../styles/variables.module.less';
+import styles from '@/styles/variables.module.less';
 
 interface TeslaScenePlayOptions extends Pick<ScenePlayOptions, 'size'> {}
 
