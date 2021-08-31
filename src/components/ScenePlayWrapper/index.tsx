@@ -7,9 +7,13 @@ import styles from './index.module.less';
 
 export interface ScenePlayWrapperProps {
   className?: string;
+  opacity?: number;
 }
 
-export function ScenePlayWrapper({ className }: ScenePlayWrapperProps) {
+export function ScenePlayWrapper({
+  className,
+  opacity,
+}: ScenePlayWrapperProps) {
   const scenePlayRef = useRef<TeslaScenePlay | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const handleResize = useCallback(() => {
@@ -42,7 +46,16 @@ export function ScenePlayWrapper({ className }: ScenePlayWrapperProps) {
       scenePlayRef.current = scenePlay;
     }
   }, []);
-  return <canvas ref={canvasRef} className={cn(styles.container, className)} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn(styles.container, className)}
+      style={{
+        opacity,
+        filter: opacity ? `blur(${(1 - opacity)}rem)` : 'none',
+      }}
+    />
+  );
 }
 
 function getWindowSize() {
