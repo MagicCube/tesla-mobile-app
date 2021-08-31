@@ -1,11 +1,17 @@
 import { Tween, Easing } from '@tweenjs/tween.js';
 import { Mesh, Object3D } from 'three';
-
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+import { allowAnimation } from '@/config';
+
 import { rnd, traverse, vectorToJSON } from '../util';
 
 export class TeslaModel3 extends Object3D {
   private _root: Mesh | null = null;
+
+  get allowAnimation() {
+    return allowAnimation;
+  }
 
   async load(onProgress?: (event: ProgressEvent) => void) {
     const loader = new GLTFLoader();
@@ -31,7 +37,7 @@ export class TeslaModel3 extends Object3D {
       i++;
       const l = 5 - level;
       const target = child.userData;
-      if (duration > 0) {
+      if (allowAnimation && duration > 0) {
         new Tween(child.position)
           .to(target.position, rnd(duration / 2, false))
           .delay(l * 5 + i * 15)
@@ -90,7 +96,7 @@ export class TeslaModel3 extends Object3D {
         rotation: { x: rnd(Math.PI), y: rnd(Math.PI), z: rnd(Math.PI) },
       };
 
-      if (duration > 0) {
+      if (allowAnimation && duration > 0) {
         new Tween(child.position)
           .to(target.position, rnd(duration / 2, false))
           .delay(l * 5 + i * 15)

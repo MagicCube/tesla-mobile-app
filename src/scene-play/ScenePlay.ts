@@ -13,6 +13,8 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Easing, Tween, update as updateAllTweens } from '@tweenjs/tween.js';
 
+import { allowAnimation } from '@/config';
+
 import { Size } from './types';
 import { vector3, vectorToJSON } from './util';
 
@@ -80,6 +82,14 @@ export class ScenePlay extends EventDispatcher {
     return this._lights;
   }
 
+  get orbitControls() {
+    return this._orbitControls;
+  }
+
+  get allowAnimation() {
+    return allowAnimation;
+  }
+
   protected get options() {
     return this._options;
   }
@@ -106,21 +116,27 @@ export class ScenePlay extends EventDispatcher {
     duration: number = 1200,
     easing?: EasingFunction
   ) {
-    const positionJSON = vectorToJSON(position);
-    const targetJSON = vectorToJSON(target);
-    return new Promise<void>((resolve) => {
-      new Tween(this.camera.position)
-        .to(positionJSON, duration)
-        .onComplete(() => {
-          resolve();
-        })
-        .easing(easing || this.options.camera?.easing || Easing.Linear.None)
-        .start();
-      new Tween(this._orbitControls.target)
-        .to(targetJSON)
-        .easing(easing || this.options.camera?.easing || Easing.Linear.None)
-        .start();
-    });
+    if (this.allowAnimation && duration > 0) {
+      const positionJSON = vectorToJSON(position);
+      const targetJSON = vectorToJSON(target);
+      return new Promise<void>((resolve) => {
+        new Tween(this.camera.position)
+          .to(positionJSON, duration)
+          .onComplete(() => {
+            resolve();
+          })
+          .easing(easing || this.options.camera?.easing || Easing.Linear.None)
+          .start();
+        new Tween(this._orbitControls.target)
+          .to(targetJSON)
+          .easing(easing || this.options.camera?.easing || Easing.Linear.None)
+          .start();
+      });
+    } else {
+      this.camera.position.copy(vector3(position));
+      this._orbitControls.target.copy(vector3(target));
+      return Promise.resolve();
+    }
   }
 
   moveCamera(

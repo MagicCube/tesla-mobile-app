@@ -42,6 +42,10 @@ export class TeslaScenePlay extends ScenePlay {
       [-0.10510654963204777, -3.6766618001426745, -0.40487639458051106],
       6000
     );
+
+    if (this.allowAnimation) {
+      this.orbitControls.autoRotate = true;
+    }
   }
 
   setupControls() {
