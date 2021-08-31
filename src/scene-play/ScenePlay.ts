@@ -1,12 +1,7 @@
 import {
   AmbientLight,
-  BoxGeometry,
   DirectionalLight,
-  Group,
   Light,
-  Mesh,
-  MeshPhongMaterial,
-  Object3D,
   PerspectiveCamera,
   PointLight,
   Scene,
@@ -14,7 +9,6 @@ import {
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { update as updateAllTweens } from '@tweenjs/tween.js';
 
 export interface Size {
@@ -26,10 +20,6 @@ export interface ScenePlayOptions {
   size: Size;
   camera?: {
     fov?: number;
-  };
-  model?: {
-    url: string;
-    onLoad?: (model: Group) => Object3D | void;
   };
 }
 
@@ -100,20 +90,6 @@ export class ScenePlay {
     this.setup();
   }
 
-  async loadGLTFModel(url: string) {
-    const loader = new GLTFLoader();
-    const gltfDocument = await loader.loadAsync(url);
-    let model: Object3D = gltfDocument.scene;
-    if (this.options.model?.onLoad) {
-      const result = this.options.model.onLoad(model as Group);
-      if (result) {
-        model = result;
-      }
-    }
-    this.scene.add(model);
-    return model;
-  }
-
   protected setup() {
     this.setupRenderer();
     this.setupCamera();
@@ -157,16 +133,7 @@ export class ScenePlay {
     });
   }
 
-  protected setupScene() {
-    if (this._options.model?.url) {
-      this.loadGLTFModel(this._options.model.url);
-    } else {
-      const geometry = new BoxGeometry();
-      const material = new MeshPhongMaterial({ color: 0xe12026 });
-      const cube = new Mesh(geometry, material);
-      this.scene.add(cube);
-    }
-  }
+  protected setupScene() {}
 
   protected setupControls() {
     this._orbitControls.enableDamping = true;
