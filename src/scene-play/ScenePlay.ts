@@ -109,17 +109,15 @@ export class ScenePlay extends EventDispatcher {
     const positionJSON = vectorToJSON(position);
     const targetJSON = vectorToJSON(target);
     return new Promise<void>((resolve) => {
-      new Tween(this.camera)
-        .to(
-          {
-            position: positionJSON,
-            target: targetJSON,
-          },
-          duration
-        )
+      new Tween(this.camera.position)
+        .to(positionJSON, duration)
         .onComplete(() => {
           resolve();
         })
+        .easing(easing || this.options.camera?.easing || Easing.Linear.None)
+        .start();
+      new Tween(this._orbitControls.target)
+        .to(targetJSON)
         .easing(easing || this.options.camera?.easing || Easing.Linear.None)
         .start();
     });
