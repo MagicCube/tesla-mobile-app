@@ -36,11 +36,12 @@ export class TeslaModel3 extends Object3D {
 
       i++;
       const l = 5 - level;
+      const keepOnTop = isKeepOnTop(child);
       const target = child.userData;
       if (allowAnimation && duration > 0) {
         new Tween(child.position)
           .to(target.position, rnd(duration / 2, false))
-          .delay(l * 5 + i * 15)
+          .delay((l * 5 + i * 15) * (keepOnTop ? 1.2 : 1))
           .easing(Easing.Cubic.InOut)
           .start();
         new Tween(child.rotation)
@@ -84,14 +85,12 @@ export class TeslaModel3 extends Object3D {
         rotation: vectorToJSON(child.rotation),
       };
 
-      const name = child.name.toLowerCase();
-      let isSunRoof = name.startsWith('glass_glass');
-
+      const keepOnTop = isKeepOnTop(child);
       const target = {
         position: {
           x: rnd(5),
           y: rnd(10),
-          z: isSunRoof ? Math.abs(rnd(5)) : rnd(5),
+          z: keepOnTop ? Math.abs(rnd(5)) : rnd(5),
         },
         rotation: { x: rnd(Math.PI), y: rnd(Math.PI), z: rnd(Math.PI) },
       };
@@ -127,4 +126,14 @@ export class TeslaModel3 extends Object3D {
       }, duration);
     });
   }
+}
+
+function isKeepOnTop(obj: Object3D) {
+  return [
+    'bonnet_ok_primary_0',
+    'boot_primary_0',
+    'glass_glass1_0',
+    'glass_glass1_1',
+    'windscreen_ok_glass0_0',
+  ].includes(obj.name);
 }

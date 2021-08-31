@@ -30,28 +30,18 @@ export class TeslaScenePlay extends ScenePlay {
     return this._model;
   }
 
-  async setupScene() {
+  protected async setupScene() {
     this.scene.background = new Color(styles.backgroundColor);
 
     this.scene.add(this.model);
     await this.model.load();
 
-    this.model.explode(0);
-    this.model.assembly(openingAnimationDuration);
-
-    await this.panCamera(
-      [-2.0630454676789407, 3.740821669151607, -7.351070916224511],
-      [0.07093096967317583, -3.8602772541774777, -0.029166030311569762],
-      openingAnimationDuration
-    );
-
-    if (this.allowAnimation) {
-      this.orbitControls.autoRotate = true;
-    }
+    this.playOpeningAnimation();
   }
 
-  setupControls() {
+  protected setupControls() {
     super.setupControls();
+    this.orbitControls.autoRotateSpeed *= -1;
     const selectControls = new SelectControls(
       [this.model],
       this.camera,
@@ -64,5 +54,20 @@ export class TeslaScenePlay extends ScenePlay {
       console.info(obj.name, obj.position.toArray(), pos.toArray(), obj);
     });
     selectControls.activate();
+  }
+
+  async playOpeningAnimation() {
+    this.model.explode(0);
+    this.model.assembly(openingAnimationDuration);
+
+    await this.panCamera(
+      [-2.0630454676789407, 3.740821669151607, -7.351070916224511],
+      [0.07093096967317583, -3.8602772541774777, -0.029166030311569762],
+      openingAnimationDuration
+    );
+
+    if (this.allowAnimation) {
+      this.orbitControls.autoRotate = true;
+    }
   }
 }
