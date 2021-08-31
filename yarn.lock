@@ -1215,6 +1215,11 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
+"@tweenjs/tween.js@^18.6.4":
+  version "18.6.4"
+  resolved "https://registry.npm.taobao.org/@tweenjs/tween.js/download/@tweenjs/tween.js-18.6.4.tgz#40a3d0a93647124872dec8e0fd1bd5926695b6ca"
+  integrity sha1-QKPQqTZHEkhy3sjg/RvVkmaVtso=
+
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"
   resolved "https://registry.nlark.com/@types/eslint-scope/download/@types/eslint-scope-3.7.1.tgz#8dc390a7b4f9dd9f1284629efce982e41612116e"
@@ -1308,6 +1313,11 @@
   version "0.16.2"
   resolved "https://registry.nlark.com/@types/scheduler/download/@types/scheduler-0.16.2.tgz?cache=0&sync_timestamp=1629709281824&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fscheduler%2Fdownload%2F%40types%2Fscheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha1-GmL4lSVyPd4kuhsBsJK/XfitTTk=
+
+"@types/three@^0.131.0":
+  version "0.131.0"
+  resolved "https://registry.nlark.com/@types/three/download/@types/three-0.131.0.tgz?cache=0&sync_timestamp=1629710183651&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fthree%2Fdownload%2F%40types%2Fthree-0.131.0.tgz#98f59887b05f71e665cf2fbdf04e0e4ceb9f89b6"
+  integrity sha1-mPWYh7BfceZlzy+98E4OTOufibY=
 
 "@typescript-eslint/eslint-plugin@^4.29.3":
   version "4.29.3"
@@ -5707,6 +5717,11 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.nlark.com/text-table/download/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+three@^0.132.2:
+  version "0.132.2"
+  resolved "https://registry.nlark.com/three/download/three-0.132.2.tgz#95eb1856147237c03e887cbbe56f964b6fb40b5e"
+  integrity sha1-lesYVhRyN8A+iHy75W+WS2+0C14=
 
 through2@^4.0.0:
   version "4.0.2"
