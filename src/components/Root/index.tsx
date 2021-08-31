@@ -1,5 +1,5 @@
-import { Example } from '../Example';
+import { ScenePlayWrapper as ScenePlay } from '../ScenePlayWrapper';
 
 export function Root() {
-  return <Example title="Hello, World!" />;
+  return <ScenePlay />;
 }
