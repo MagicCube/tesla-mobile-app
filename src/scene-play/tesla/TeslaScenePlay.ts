@@ -1,5 +1,5 @@
 import { Easing } from '@tweenjs/tween.js';
-import { Vector3 } from 'three';
+import { Color, Vector3 } from 'three';
 import { SelectControls } from '../controls/SelectControls';
 
 import { ScenePlay, ScenePlayOptions } from '../ScenePlay';
@@ -27,6 +27,8 @@ export class TeslaScenePlay extends ScenePlay {
   }
 
   async setupScene() {
+    this.scene.background = new Color(0x0d0e0f);
+
     this.scene.add(this.model);
     await this.model.load();
 
