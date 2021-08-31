@@ -6,6 +6,8 @@ import { ScenePlay, ScenePlayOptions } from '../ScenePlay';
 
 import { TeslaModel3 } from './TeslaModel3';
 
+import styles from '../../styles/variables.module.less';
+
 interface TeslaScenePlayOptions extends Pick<ScenePlayOptions, 'size'> {}
 
 export class TeslaScenePlay extends ScenePlay {
@@ -27,7 +29,7 @@ export class TeslaScenePlay extends ScenePlay {
   }
 
   async setupScene() {
-    this.scene.background = new Color(0x0d0e0f);
+    this.scene.background = new Color(styles.backgroundColor);
 
     this.scene.add(this.model);
     await this.model.load();
