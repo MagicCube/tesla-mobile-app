@@ -14,7 +14,6 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     'arrow-body-style': 'off',
