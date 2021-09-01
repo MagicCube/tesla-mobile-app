@@ -6,6 +6,11 @@ import { allowAnimation } from '@/config';
 
 import { rnd, traverse, vectorToJSON } from '../util';
 
+interface PositionRotation {
+  position: { x: number; y: number; z: number };
+  rotation: { x: number; y: number; z: number };
+}
+
 export class TeslaModel3 extends Object3D {
   private _root: Mesh | null = null;
 
@@ -39,7 +44,7 @@ export class TeslaModel3 extends Object3D {
 
       const l = 5 - level;
       const keepOnTop = isKeepOnTop(child);
-      const target = child.userData;
+      const target = child.userData as PositionRotation;
       if (allowAnimation && duration > 0) {
         new Tween(child.position)
           .to(target.position, rnd(duration / 2, false))
@@ -92,7 +97,7 @@ export class TeslaModel3 extends Object3D {
       };
 
       const keepOnTop = isKeepOnTop(child);
-      const target = {
+      const target: PositionRotation = {
         position: {
           x: rnd(5),
           y: rnd(10),

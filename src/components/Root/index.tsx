@@ -37,13 +37,11 @@ export function Root() {
       setPageVisible(true);
     }, openingAnimationDuration - 1600);
   }, []);
-  const handleScenePlayProgress = useCallback((e) => {
+  const handleScenePlayProgress = useCallback((e: { loaded: number }) => {
     setLoading({
       percentage: e.loaded / 314079,
       status:
-        e.loaded / 314079 === 1
-          ? '正在加载模型材质...'
-          : '正在加载模型...',
+        e.loaded / 314079 === 1 ? '正在加载模型材质...' : '正在加载模型...',
     });
   }, []);
   useEffect(() => {
