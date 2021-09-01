@@ -41,6 +41,7 @@ export class TeslaScenePlay extends ScenePlay {
 
     this.dispatchEvent({ type: 'load' });
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.playOpeningAnimation();
   }
 
@@ -53,16 +54,21 @@ export class TeslaScenePlay extends ScenePlay {
       this.canvas
     );
     selectControls.addEventListener('select', () => {
-      const pos = new Vector3();
-      const obj = selectControls.selection!;
-      obj.getWorldPosition(pos);
-      console.info(obj.name, obj.position.toArray(), pos.toArray(), obj);
+      if (selectControls.selection) {
+        const obj = selectControls.selection;
+        const pos = new Vector3();
+        obj.getWorldPosition(pos);
+        // eslint-disable-next-line no-console
+        console.info(obj.name, obj.position.toArray(), pos.toArray(), obj);
+      }
     });
     selectControls.activate();
   }
 
   async playOpeningAnimation() {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.model.explode(0);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.model.assembly(openingAnimationDuration);
 
     await this.panCamera(

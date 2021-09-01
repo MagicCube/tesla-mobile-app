@@ -32,11 +32,17 @@ export type EasingFunction = (amount: number) => number;
 
 export class ScenePlay extends EventDispatcher {
   private _size: Size;
+
   private _renderer: WebGLRenderer;
+
   private _scene: Scene;
+
   private _camera: PerspectiveCamera;
+
   private _lights: Light[] = [];
+
   private _orbitControls: OrbitControls;
+
   private _options: ScenePlayOptions;
 
   constructor(canvas: HTMLCanvasElement, options: ScenePlayOptions) {
@@ -62,6 +68,7 @@ export class ScenePlay extends EventDispatcher {
   get size() {
     return this._size;
   }
+
   set size(value) {
     this.resizeTo(value);
   }
@@ -104,6 +111,7 @@ export class ScenePlay extends EventDispatcher {
   }
 
   debug() {
+    // eslint-disable-next-line no-console
     console.info(
       this.camera.position.toArray(),
       this._orbitControls.target.toArray()
@@ -113,7 +121,7 @@ export class ScenePlay extends EventDispatcher {
   panCamera(
     position: Vector3 | Vector3Tuple,
     target: Vector3 | Vector3Tuple,
-    duration: number = 1200,
+    duration = 1200,
     easing?: EasingFunction
   ) {
     if (this.allowAnimation && duration > 0) {
@@ -141,7 +149,7 @@ export class ScenePlay extends EventDispatcher {
 
   moveCamera(
     position: Vector3 | Vector3Tuple,
-    duration: number = 1200,
+    duration = 1200,
     easing?: EasingFunction
   ) {
     return this.panCamera(position, [0, 0, 0], duration, easing);
@@ -185,7 +193,7 @@ export class ScenePlay extends EventDispatcher {
     ).forEach((position, i) => {
       const pointLight = new PointLight(0xc4c4c4, 0.5);
       pointLight.name = `point-light-${i + 1}`;
-      pointLight.position.set.apply(pointLight.position, position);
+      pointLight.position.set(...position);
       this._scene.add(pointLight);
       this._lights.push(pointLight);
     });
@@ -200,14 +208,14 @@ export class ScenePlay extends EventDispatcher {
   }
 
   protected animate(time: number) {
-    window.requestAnimationFrame((time) => {
-      this.animate(time);
+    window.requestAnimationFrame((t) => {
+      this.animate(t);
     });
     this.update(time);
   }
 
   protected update(time: number) {
-    updateAllTweens();
+    updateAllTweens(time);
     this._orbitControls.update();
     this._renderer.render(this.scene, this.camera);
   }

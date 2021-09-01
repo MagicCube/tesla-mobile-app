@@ -9,7 +9,9 @@ import {
 
 export class SelectControls extends EventDispatcher {
   private _pointer: Vector2 = new Vector2(0, 0);
+
   private _selection: Object3D | null = null;
+
   private _raycaster = new Raycaster();
 
   constructor(
@@ -55,11 +57,11 @@ export class SelectControls extends EventDispatcher {
 
     if (intersections.length > 0) {
       this._selection = intersections[0].object;
-      const event = {
+      const e = {
         type: 'select',
         target: this._selection,
       };
-      this.dispatchEvent(event);
+      this.dispatchEvent(e);
     }
   };
 }
