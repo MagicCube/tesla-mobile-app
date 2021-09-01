@@ -45,6 +45,7 @@
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "lint-staged": "^11.1.2",
+    "mini-css-extract-plugin": "^2.2.1",
     "prettier": "^2.3.2",
     "react-refresh": "^0.10.0",
     "react-refresh-typescript": "^2.0.2",
