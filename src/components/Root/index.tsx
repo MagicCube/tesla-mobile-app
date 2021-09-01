@@ -38,7 +38,6 @@ export function Root() {
     }, openingAnimationDuration - 1600);
   }, []);
   const handleScenePlayProgress = useCallback((e) => {
-    console.info(e.loaded);
     setLoading({
       percentage: e.loaded / 314079,
       status:
