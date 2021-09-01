@@ -137,6 +137,21 @@ export class TeslaModel3 extends Object3D {
       }, duration);
     });
   }
+
+  setRoofVisible() {
+    // [
+    //   'windscreen_ok_glass0_0',
+    //   'glass_glass1_0',
+    //   'black003_black_lights0_0',
+    //   'whiteleather_Putih0_0',
+    //   'Leather_white_Seat_Leather_white0_0',
+    //   'Putih002_Putih0_0',
+    //   'Plastic_Plastic0_0',
+    //   'interiorlights_light_night_0',
+    //   'mirror_inside_mirror_inside0_0',
+    //   'aluminium2_aluminium20_0'
+    // ]
+  }
 }
 
 function isKeepOnTop(obj: Object3D) {
