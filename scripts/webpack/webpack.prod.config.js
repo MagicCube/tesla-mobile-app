@@ -1,15 +1,10 @@
-const path = require('path');
 const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common.config');
+const { mergePluginOptions } = require('./webpack.util');
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const htmlWebpackPlugin = common.plugins.find(
-  (p) => p.constructor.name === 'HtmlWebpackPlugin'
-);
-if (htmlWebpackPlugin) {
-  htmlWebpackPlugin.userOptions.minify = {
+mergePluginOptions('HtmlWebpackPlugin', {
+  minify: {
     collapseWhitespace: true,
     conservativeCollapse: true,
     removeComments: true,
@@ -19,18 +14,9 @@ if (htmlWebpackPlugin) {
     useShortDoctype: true,
     minifyCSS: true,
     minifyJS: true,
-  };
-}
+  },
+});
 
 module.exports = merge(common, {
   mode: 'production',
-  plugins: [
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, '../../public'),
-        },
-      ],
-    }),
-  ],
 });
