@@ -11,8 +11,9 @@ export function rnd(num: number, bothPositiveAndNegative = true) {
 export function vector3(point: Vector3 | Vector3Tuple): Vector3 {
   if (Array.isArray(point) && point.length === 3) {
     return new Vector3(point[0], point[1], point[2]);
+  } else {
+    return point;
   }
-  return point;
 }
 
 export function vectorToJSON(vector: Vector3 | Vector3Tuple | Euler): {
