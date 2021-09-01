@@ -90,7 +90,7 @@ export class TeslaModel3 extends Object3D {
         position: {
           x: rnd(5),
           y: rnd(10),
-          z: keepOnTop ? Math.abs(rnd(5)) : rnd(5),
+          z: keepOnTop ? Math.abs(rnd(5)) + 2 : rnd(5),
         },
         rotation: { x: rnd(Math.PI), y: rnd(Math.PI), z: rnd(Math.PI) },
       };
