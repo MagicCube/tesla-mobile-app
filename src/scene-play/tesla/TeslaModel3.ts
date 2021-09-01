@@ -94,7 +94,7 @@ export class TeslaModel3 extends Object3D {
       child.userData = {
         position: vectorToJSON(child.position),
         rotation: vectorToJSON(child.rotation),
-      };
+      } as PositionRotation;
 
       const keepOnTop = isKeepOnTop(child);
       const target: PositionRotation = {
