@@ -1,5 +1,7 @@
 # tesla-mobile-app
 
+[![Travis CI Build Status](https://app.travis-ci.com/MagicCube/tesla-mobile-app.svg?branch=master)](https://app.travis-ci.com/MagicCube/tesla-mobile-app)
+
 A mockup of Tesla mobile App with 3D animation effects.
 
 ---
