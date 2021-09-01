@@ -1,8 +1,9 @@
 import { Easing } from '@tweenjs/tween.js';
 import { Color, Vector3 } from 'three';
-import { SelectControls } from '../controls/SelectControls';
 
 import { openingAnimationDuration } from '@/config';
+
+import { SelectControls } from '../controls/SelectControls';
 
 import { ScenePlay, ScenePlayOptions } from '../ScenePlay';
 
