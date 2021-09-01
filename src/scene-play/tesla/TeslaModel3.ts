@@ -28,13 +28,15 @@ export class TeslaModel3 extends Object3D {
   }
 
   assembly(duration = 6000) {
+    if (!this._root) {
+      return Promise.resolve();
+    }
     let i = 0;
-    traverse(this._root!, 4, (child, level) => {
-      if (level++ === 0) {
+    traverse(this._root, 4, (child, level) => {
+      if (i++ === 0) {
         return;
       }
 
-      i++;
       const l = 5 - level;
       const keepOnTop = isKeepOnTop(child);
       const target = child.userData;
@@ -71,9 +73,13 @@ export class TeslaModel3 extends Object3D {
   }
 
   explode(duration = 6000) {
+    if (!this._root) {
+      return Promise.resolve();
+    }
+
     let i = 0;
-    traverse(this._root!, 4, (child, level) => {
-      if (level++ === 0) {
+    traverse(this._root, 4, (child, level) => {
+      if (i++ === 0) {
         return;
       }
 
