@@ -8,6 +8,6 @@ export interface HeaderProps {
 
 export const Header = ({ className }: HeaderProps) => {
   return <div className={cn(styles.container, className)}>
-    <h1>Digital Twin</h1>
+    <h2>Digital Twin</h2>
   </div>;
 };
