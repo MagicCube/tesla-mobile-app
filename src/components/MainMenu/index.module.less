@@ -1,0 +1,50 @@
+@import '@/styles/theme.less';
+
+.container {
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 2rem 0;
+  margin: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 1.5rem 0 0;
+    margin: 0;
+  }
+}
+
+.icon {
+  margin-right: 1rem;
+  color: @text-color-secondary;
+  font-size: 2rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin-bottom: 0.25rem;
+}
+
+.about {
+  color: @text-color-secondary;
+  padding: 2rem 0 0rem 0;
+  border-top: 1px solid #2d2e2f;
+  font-size: @font-size-sm;
+
+  h3 {
+    color: @text-color;
+  }
+
+  a {
+    color: @text-color-secondary;
+    text-decoration: underline;
+  }
+}

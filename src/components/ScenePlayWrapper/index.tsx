@@ -9,7 +9,7 @@ export interface ScenePlayWrapperProps {
   className?: string;
   opacity?: number;
   onLoad?: () => void;
-  onProgress?: (e: ProgressEvent) => void;
+  onProgress?: (e: { url: string; loaded: number; total: number }) => void;
 }
 
 export function ScenePlayWrapper({
@@ -51,7 +51,8 @@ export function ScenePlayWrapper({
       });
       scenePlay.addEventListener('progress', (e) => {
         if (typeof onProgress === 'function') {
-          onProgress(e as ProgressEvent);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onProgress(e as any);
         }
       });
       scenePlay.init();

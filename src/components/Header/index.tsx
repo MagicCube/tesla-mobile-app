@@ -7,7 +7,9 @@ export interface HeaderProps {
 }
 
 export const Header = ({ className }: HeaderProps) => {
-  return <div className={cn(styles.container, className)}>
-    <h2>Digital Twin</h2>
-  </div>;
+  return (
+    <div className={cn(styles.container, className)}>
+      <h2>Digital Twin</h2>
+    </div>
+  );
 };
