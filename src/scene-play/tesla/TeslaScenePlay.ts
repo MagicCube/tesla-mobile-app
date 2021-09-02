@@ -35,8 +35,8 @@ export class TeslaScenePlay extends ScenePlay {
     this.scene.background = new Color(styles.backgroundColor);
 
     this.scene.add(this.model);
-    await this.model.load((e) => {
-      this.dispatchEvent({ type: 'progress', loaded: e.loaded });
+    await this.model.load((progress) => {
+      this.dispatchEvent({ type: 'progress', ...progress });
     });
 
     this.dispatchEvent({ type: 'load' });

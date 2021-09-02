@@ -37,13 +37,16 @@ export function Root() {
       setPageVisible(true);
     }, openingAnimationDuration - 1600);
   }, []);
-  const handleScenePlayProgress = useCallback((e: { loaded: number }) => {
-    setLoading({
-      percentage: e.loaded / 314079,
-      status:
-        e.loaded / 314079 === 1 ? '正在加载模型材质...' : '正在加载模型...',
-    });
-  }, []);
+  const handleScenePlayProgress = useCallback(
+    (e: { url: string, loaded: number; total: number }) => {
+      const percentage = e.loaded / e.total;
+      setLoading({
+        percentage,
+        status: `正在加载模型 ${Math.round(percentage * 100)}%...`,
+      });
+    },
+    []
+  );
 
   useEffect(() => {
     document.body.style.overflowY = pageVisible ? 'auto' : 'hidden';

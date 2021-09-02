@@ -1,5 +1,5 @@
 import { Tween, Easing } from '@tweenjs/tween.js';
-import { Mesh, Object3D } from 'three';
+import { LoadingManager, Mesh, Object3D } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 import { allowAnimation } from '@/config';
@@ -18,11 +18,29 @@ export class TeslaModel3 extends Object3D {
     return allowAnimation;
   }
 
-  async load(onProgress?: (event: ProgressEvent) => void) {
-    const loader = new GLTFLoader();
+  async load(
+    onProgress?: (progress: {
+      url: string;
+      loaded: number;
+      total: number;
+    }) => void
+  ) {
+    const manager = new LoadingManager();
+    manager.onProgress = (url, loaded, total) => {
+      if (typeof onProgress === 'function') {
+        onProgress({
+          url,
+          loaded,
+          total,
+        });
+      }
+    };
+    manager.onStart = (url) => {
+      console.info(url);
+    };
+    const loader = new GLTFLoader(manager);
     const gltfDocument = await loader.loadAsync(
-      'https://feng-docs.oss-cn-hangzhou.aliyuncs.com/tesla-model-3/scene.gltf',
-      onProgress
+      'https://feng-docs.oss-cn-hangzhou.aliyuncs.com/tesla-model-3/scene.gltf'
     );
     const model = gltfDocument.scene.getObjectByName('Tesla_Model_3');
     if (model) {
