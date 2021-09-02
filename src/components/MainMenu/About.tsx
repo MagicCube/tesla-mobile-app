@@ -40,15 +40,16 @@ export const About = () => {
         </p>
         <p>“TESLA” and “MODEL 3” is a trademark of TESLA, Inc.</p>
         <p>
-          The 3D model is created by
+          The 3D model is created by{' '}
           <a
             href="https://sketchfab.com/uchiha.321abc"
             target="_blank"
             rel="noreferrer"
           >
             Ameer Studio
-          </a>{' '}
-          under{' '}
+          </a>
+          {', '}
+          used under{' '}
           <a
             href="http://creativecommons.org/licenses/by/4.0/"
             target="_blank"
