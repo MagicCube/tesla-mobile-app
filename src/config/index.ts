@@ -1,2 +1,2 @@
-export const allowAnimation = false;
+export const allowAnimation = true;
 export const openingAnimationDuration = 6000;
