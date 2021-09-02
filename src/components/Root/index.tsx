@@ -44,15 +44,21 @@ export function Root() {
         e.loaded / 314079 === 1 ? '正在加载模型材质...' : '正在加载模型...',
     });
   }, []);
+
   useEffect(() => {
     document.body.style.overflowY = pageVisible ? 'auto' : 'hidden';
   }, [pageVisible]);
+
   useEffect(() => {
     document.addEventListener('scroll', handleScroll, true);
     return () => {
       document.removeEventListener('scroll', handleScroll, true);
     };
   }, [handleScroll]);
+
+  useEffect(() => {
+    document.body.scrollTo(0, 0);
+  }, []);
 
   const isLoading = loading.percentage < 100;
   return (
