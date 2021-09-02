@@ -21,7 +21,7 @@ export class TeslaModel3 extends Object3D {
   async load(onProgress?: (event: ProgressEvent) => void) {
     const loader = new GLTFLoader();
     const gltfDocument = await loader.loadAsync(
-      'models/tesla-model-3/scene.gltf',
+      'https://feng-docs.oss-cn-hangzhou.aliyuncs.com/tesla-model-3/scene.gltf',
       onProgress
     );
     const model = gltfDocument.scene.getObjectByName('Tesla_Model_3');
