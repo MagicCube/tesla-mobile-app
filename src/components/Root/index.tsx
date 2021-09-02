@@ -61,7 +61,9 @@ export function Root() {
   }, [handleScroll]);
 
   useEffect(() => {
-    document.body.scrollTo(0, 0);
+    if (document.scrollingElement) {
+      document.scrollingElement.scrollTo(0, 0);
+    }
   }, []);
 
   const isLoading = loading.percentage < 100;
