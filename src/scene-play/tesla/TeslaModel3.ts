@@ -6,6 +6,8 @@ import { allowAnimation } from '@/config';
 
 import { rnd, traverse, vectorToJSON } from '../util';
 
+const IS_DEV_MODE = import.meta.env.MODE === 'development';
+
 interface PositionRotation {
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
@@ -35,12 +37,11 @@ export class TeslaModel3 extends Object3D {
         });
       }
     };
-    manager.onStart = (url) => {
-      console.info(url);
-    };
     const loader = new GLTFLoader(manager);
     const gltfDocument = await loader.loadAsync(
-      'https://feng-docs.oss-cn-hangzhou.aliyuncs.com/tesla-model-3/scene.gltf'
+      IS_DEV_MODE
+        ? 'models/tesla-model-3/scene.gltf'
+        : 'https://feng-docs.oss-cn-hangzhou.aliyuncs.com/tesla-model-3/scene.gltf'
     );
     const model = gltfDocument.scene.getObjectByName('Tesla_Model_3');
     if (model) {
