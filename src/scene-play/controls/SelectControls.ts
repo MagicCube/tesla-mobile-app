@@ -7,6 +7,10 @@ import {
   Vector2,
 } from 'three';
 
+export interface SelectEvent extends Event {
+  object?: Object3D;
+}
+
 export class SelectControls extends EventDispatcher {
   private _pointer: Vector2 = new Vector2(0, 0);
 
@@ -59,7 +63,7 @@ export class SelectControls extends EventDispatcher {
       this._selection = intersections[0].object;
       const e = {
         type: 'select',
-        target: this._selection,
+        object: this._selection,
       };
       this.dispatchEvent(e);
     }
