@@ -3,7 +3,7 @@ import styles from './index.module.less';
 export const About = () => {
   return (
     <div className={styles.about}>
-      <h3>About this App</h3>
+      <h3>About this app</h3>
       <div>
         <p>
           This application is powered by{' '}
@@ -47,9 +47,8 @@ export const About = () => {
             rel="noreferrer"
           >
             Ameer Studio
-          </a>
-          {', '}
-          used under{' '}
+          </a>{' '}
+          under{' '}
           <a
             href="http://creativecommons.org/licenses/by/4.0/"
             target="_blank"
