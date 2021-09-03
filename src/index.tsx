@@ -1,7 +1,13 @@
 import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Root } from '@/components/Root';
 
 import './index.less';
 
-render(<Root />, document.getElementById('react-mount-point'));
+render(
+  <Router>
+    <Root />
+  </Router>,
+  document.getElementById('react-mount-point')
+);

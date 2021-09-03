@@ -1,5 +1,5 @@
 import { Easing } from '@tweenjs/tween.js';
-import { Color, Vector3 } from 'three';
+import { Color, Vector3, Vector3Tuple } from 'three';
 
 import { openingAnimationDuration } from '@/config';
 
@@ -12,6 +12,38 @@ import { TeslaModel3 } from './TeslaModel3';
 import styles from '@/styles/variables.module.less';
 
 interface TeslaScenePlayOptions extends Pick<ScenePlayOptions, 'size'> {}
+
+export const namedViews: Record<
+  'default' | 'home' | 'top' | 'side' | 'climate',
+  [Vector3Tuple, Vector3Tuple, Vector3Tuple?, Vector3Tuple?]
+> = {
+  default: [
+    [-5.1092359402557825, 2.3585518996952866, -5.686206208293889],
+    [0, 0, 0],
+  ],
+  home: [
+    [-2.0630454676789407, 3.740821669151607, -7.351070916224511],
+    [0.07093096967317583, -3.8602772541774777, -0.029166030311569762],
+  ],
+  top: [
+    [0, 4.5, 0],
+    [0, 0, 0],
+  ],
+  side: [
+    [-8.5, 0, 0],
+    [0, 0, 0],
+  ],
+  climate: [
+    [2.7578341026618327e-9, 4, 1.1888649873971757],
+    [0, 0, 0],
+    [-0.007478408949193623, 2.627048252112721, 1.5015885243156035],
+    [-0.007528463439677366, -0.45537866287491535, 1.1317027811060794],
+  ],
+};
+
+export type NamedViews = typeof namedViews;
+
+export type ViewName = keyof NamedViews;
 
 export class TeslaScenePlay extends ScenePlay {
   private readonly _model: TeslaModel3;
@@ -42,12 +74,14 @@ export class TeslaScenePlay extends ScenePlay {
     this.dispatchEvent({ type: 'load' });
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.playOpeningAnimation();
   }
 
   protected setupControls() {
     super.setupControls();
     this.orbitControls.autoRotateSpeed *= -1;
+    this.orbitControls.addEventListener('start', () => {
+      this.orbitControls.autoRotate = false;
+    });
     const selectControls = new SelectControls(
       [this.model],
       this.camera,
@@ -56,6 +90,7 @@ export class TeslaScenePlay extends ScenePlay {
     selectControls.addEventListener('select', () => {
       if (selectControls.selection) {
         const obj = selectControls.selection;
+        this.model.handleClick(obj);
         const pos = new Vector3();
         obj.getWorldPosition(pos);
         // eslint-disable-next-line no-console
@@ -76,9 +111,17 @@ export class TeslaScenePlay extends ScenePlay {
       [0.07093096967317583, -3.8602772541774777, -0.029166030311569762],
       openingAnimationDuration
     );
+  }
 
-    if (this.allowAnimation) {
-      this.orbitControls.autoRotate = true;
+  async switchView(name: ViewName, duration: 2000) {
+    const view = namedViews[name];
+    if (view) {
+      this.orbitControls.autoRotate = false;
+      this.model.roofVisible = name !== 'climate';
+      await this.panCamera(view[0], view[1], duration);
+      if (view[2] && view[3]) {
+        await this.panCamera(view[2], view[3]);
+      }
     }
   }
 }

@@ -8,6 +8,73 @@ import { rnd, traverse, vectorToJSON } from '../util';
 
 const IS_DEV_MODE = import.meta.env.MODE === 'development';
 
+const MOVABLE_PARTS = {
+  bonnet_ok_primary_0: {
+    isOpen: false,
+    type: 'rotation',
+    axis: 'x',
+    offset: Math.PI / 3,
+  },
+  boot_dummy: {
+    isOpen: false,
+    type: 'rotation',
+    axis: 'x',
+    offset: -Math.PI / 6,
+  },
+  door_lf: {
+    isOpen: false,
+    type: 'rotation',
+    axis: 'z',
+    offset: -Math.PI / 3,
+  },
+  door_lr: {
+    isOpen: false,
+    type: 'rotation',
+    axis: 'z',
+    offset: -Math.PI / 3,
+  },
+  door_rf: {
+    isOpen: false,
+    type: 'rotation',
+    axis: 'z',
+    offset: Math.PI / 3,
+  },
+  door_rr: {
+    isOpen: false,
+    type: 'rotation',
+    axis: 'z',
+    offset: Math.PI / 3,
+  },
+  door_lf_glass0_0: {
+    isOpen: false,
+    type: 'position',
+    axis: 'z',
+    offset: -0.2,
+  },
+  door_lr_glass0_0: {
+    isOpen: false,
+    type: 'position',
+    axis: 'z',
+    offset: -0.2,
+  },
+  door_rf_glass0_0: {
+    isOpen: false,
+    type: 'position',
+    axis: 'z',
+    offset: -0.2,
+  },
+  door_rr_glass0_0: {
+    isOpen: false,
+    type: 'position',
+    axis: 'z',
+    offset: -0.2,
+  },
+};
+
+type MovablePartName = keyof typeof MOVABLE_PARTS;
+
+const MOVABLE_PART_NAMES = Object.keys(MOVABLE_PARTS);
+
 interface PositionRotation {
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
@@ -16,8 +83,24 @@ interface PositionRotation {
 export class TeslaModel3 extends Object3D {
   private _root: Mesh | null = null;
 
+  private _roofVisible = true;
+
+  private _movableParts = {
+    ...MOVABLE_PARTS,
+  };
+
   get allowAnimation() {
     return allowAnimation;
+  }
+
+  get roofVisible() {
+    return this._roofVisible;
+  }
+
+  set roofVisible(value) {
+    if (this._roofVisible !== value) {
+      this._setRoofVisible(value);
+    }
   }
 
   async load(
@@ -157,19 +240,61 @@ export class TeslaModel3 extends Object3D {
     });
   }
 
-  setRoofVisible() {
-    // [
-    //   'windscreen_ok_glass0_0',
-    //   'glass_glass1_0',
-    //   'black003_black_lights0_0',
-    //   'whiteleather_Putih0_0',
-    //   'Leather_white_Seat_Leather_white0_0',
-    //   'Putih002_Putih0_0',
-    //   'Plastic_Plastic0_0',
-    //   'interiorlights_light_night_0',
-    //   'mirror_inside_mirror_inside0_0',
-    //   'aluminium2_aluminium20_0'
-    // ]
+  togglePart(name: MovablePartName) {
+    const part = this._movableParts[name];
+    const target = this._root?.getObjectByName(name);
+    if (part && target) {
+      if (!part.isOpen) {
+        part.isOpen = true;
+        new Tween(target)
+          .to({ [part.type]: { [part.axis]: part.offset } }, 500)
+          .start();
+      } else {
+        part.isOpen = false;
+        new Tween(target).to({ [part.type]: { [part.axis]: 0 } }, 500).start();
+      }
+    }
+  }
+
+  handleClick(obj: Object3D) {
+    let target: Object3D | null = obj;
+    while (target !== null && !MOVABLE_PART_NAMES.includes(target.name)) {
+      if (target.parent) {
+        target = target.parent;
+      } else {
+        target = null;
+        break;
+      }
+    }
+    if (target) {
+      const name = target.name as MovablePartName;
+      this.togglePart(name);
+    }
+  }
+
+  private _setRoofVisible(visible: boolean) {
+    this._roofVisible = visible;
+    const target = vectorToJSON([0, 0, this.roofVisible ? 0 : 5]);
+    [
+      'windscreen_ok_glass0_0',
+      'glass_glass1_0',
+      'black003_black_lights0_0',
+      'whiteleather_Putih0_0',
+      'Leather_white_Seat_Leather_white0_0',
+      'Putih002_Putih0_0',
+      'Plastic_Plastic0_0',
+      'interiorlights_light_night_0',
+      'mirror_inside_mirror_inside0_0',
+      'aluminium2_aluminium20_0',
+    ].forEach((name) => {
+      const part = this._root?.getObjectByName(name);
+      if (part) {
+        new Tween(part.position)
+          .to(target, 500 + 500 * Math.random())
+          .delay(Math.random() * 500)
+          .start();
+      }
+    });
   }
 }
 

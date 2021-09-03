@@ -1,5 +1,12 @@
 import cn from 'classnames';
-import { useCallback, useEffect, useRef } from 'react';
+import {
+  forwardRef,
+  Ref,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 
 import { TeslaScenePlay } from '@/scene-play';
 
@@ -12,12 +19,10 @@ export interface ScenePlayWrapperProps {
   onProgress?: (e: { url: string; loaded: number; total: number }) => void;
 }
 
-export function ScenePlayWrapper({
-  className,
-  opacity,
-  onLoad,
-  onProgress,
-}: ScenePlayWrapperProps) {
+function ScenePlayWrapper(
+  { className, opacity, onLoad, onProgress }: ScenePlayWrapperProps,
+  ref: Ref<TeslaScenePlay | null>
+) {
   const scenePlayRef = useRef<TeslaScenePlay | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const handleResize = useCallback(() => {
@@ -61,6 +66,9 @@ export function ScenePlayWrapper({
       scenePlayRef.current = scenePlay;
     }
   }, [onLoad, onProgress]);
+  useImperativeHandle(ref, () => {
+    return scenePlayRef.current;
+  });
   return (
     <canvas
       ref={canvasRef}
@@ -76,3 +84,5 @@ export function ScenePlayWrapper({
 function getWindowSize() {
   return { width: window.innerWidth, height: window.innerHeight };
 }
+
+export default forwardRef(ScenePlayWrapper);
