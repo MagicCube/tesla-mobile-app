@@ -6,7 +6,7 @@ import reactJsx from 'vite-react-jsx';
 
 export default defineConfig((configEnv) => {
   return {
-    base: '',
+    base: '/tesla-mobile-app/',
     resolve: {
       alias: [{ find: '@', replacement: '/src' }],
     },
