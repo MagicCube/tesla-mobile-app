@@ -38,7 +38,7 @@ export const About = () => {
           </a>
           .
         </p>
-        <p>“TESLA” and “MODEL 3” is a trademark of TESLA, Inc.</p>
+        <p>“TESLA” and “MODEL 3” are the trademarks of TESLA, Inc.</p>
         <p>
           The 3D model is provided by{' '}
           <a
