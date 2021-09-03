@@ -114,7 +114,7 @@ export class TeslaScenePlay extends ScenePlay {
     );
   }
 
-  async switchView(name: ViewName, duration: 2000) {
+  async switchView(name: ViewName, duration = 2000) {
     const view = namedViews[name];
     if (view) {
       this.orbitControls.autoRotate = false;

@@ -119,6 +119,7 @@ export function Root() {
               path={`${import.meta.env.BASE_URL}${page.path}`}
             >
               <div className={cn(styles.fixed)}>
+                <Header title={page.title} showBackButton />
                 <page.component />
               </div>
             </Route>
