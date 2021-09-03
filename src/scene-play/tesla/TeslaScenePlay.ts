@@ -1,5 +1,5 @@
 import { Easing } from '@tweenjs/tween.js';
-import { Color, Vector3, Vector3Tuple } from 'three';
+import { Color, Object3D, Vector3, Vector3Tuple } from 'three';
 
 import { openingAnimationDuration } from '@/config';
 
@@ -87,9 +87,9 @@ export class TeslaScenePlay extends ScenePlay {
       this.camera,
       this.canvas
     );
-    selectControls.addEventListener('select', () => {
-      if (selectControls.selection) {
-        const obj = selectControls.selection;
+    selectControls.addEventListener('select', (e) => {
+      if (e.target) {
+        const obj = e.target as Object3D;
         this.model.handleClick(obj);
         const pos = new Vector3();
         obj.getWorldPosition(pos);
