@@ -245,18 +245,51 @@ export class TeslaModel3 extends Object3D {
     const target = this._root?.getObjectByName(name);
     if (part && target) {
       if (!part.isOpen) {
+        return this.openPart(name);
+      } else {
+        return this.closePart(name);
+      }
+    }
+    return Promise.resolve();
+  }
+
+  openPart(name: MovablePartName): Promise<void> {
+    return new Promise((resolve) => {
+      const part = this._movableParts[name];
+      const target = this._root?.getObjectByName(name);
+      if (part && target && !part.isOpen) {
         part.isOpen = true;
         new Tween(target)
           .to({ [part.type]: { [part.axis]: part.offset } }, 500)
-          .start();
+          .start()
+          .onComplete(() => {
+            resolve();
+          });
       } else {
-        part.isOpen = false;
-        new Tween(target).to({ [part.type]: { [part.axis]: 0 } }, 500).start();
+        resolve();
       }
-    }
+    });
   }
 
-  handleClick(obj: Object3D) {
+  closePart(name: MovablePartName): Promise<void> {
+    return new Promise((resolve) => {
+      const part = this._movableParts[name];
+      const target = this._root?.getObjectByName(name);
+      if (part && target && part.isOpen) {
+        part.isOpen = false;
+        new Tween(target)
+          .to({ [part.type]: { [part.axis]: 0 } }, 500)
+          .start()
+          .onComplete(() => {
+            resolve();
+          });
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  async handleClick(obj: Object3D) {
     let target: Object3D | null = obj;
     while (target !== null && !MOVABLE_PART_NAMES.includes(target.name)) {
       if (target.parent) {
@@ -268,7 +301,7 @@ export class TeslaModel3 extends Object3D {
     }
     if (target) {
       const name = target.name as MovablePartName;
-      this.togglePart(name);
+      await this.togglePart(name);
     }
   }
 

@@ -1,6 +1,3 @@
-import { ClimatePage } from './ClimatePage';
-import { ControlsPage } from './ControlsPage';
-
 export default [
   {
     path: 'controls',
@@ -10,7 +7,6 @@ export default [
     scenePlay: {
       view: 'default',
     },
-    component: ControlsPage,
   },
   {
     path: 'climate',
@@ -20,7 +16,6 @@ export default [
     scenePlay: {
       view: 'climate',
     },
-    component: ClimatePage,
   },
   {
     path: 'appearance',
@@ -37,7 +32,7 @@ export default [
     desc: '进入车舱内部，查看内饰',
     icon: 'driving-wheel',
     scenePlay: {
-      view: 'default',
+      view: 'interior',
     },
   },
 ];

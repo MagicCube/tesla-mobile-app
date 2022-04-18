@@ -14,7 +14,7 @@ import styles from '@/styles/variables.module.less';
 interface TeslaScenePlayOptions extends Pick<ScenePlayOptions, 'size'> {}
 
 export const namedViews: Record<
-  'default' | 'home' | 'top' | 'side' | 'climate',
+  'default' | 'home' | 'top' | 'side' | 'climate' | 'interior',
   [Vector3Tuple, Vector3Tuple, Vector3Tuple?, Vector3Tuple?]
 > = {
   default: [
@@ -38,6 +38,12 @@ export const namedViews: Record<
     [0, 0, 0],
     [-0.007478408949193623, 2.627048252112721, 1.5015885243156035],
     [-0.007528463439677366, -0.45537866287491535, 1.1317027811060794],
+  ],
+  interior: [
+    [-2.3262856496385274, 0.20924417496911427, -0.03313205280069673],
+    [0, 0, 0],
+    [-0.4337802580564771, 0.319127318081177, 0.09316887365871929],
+    [-0.431768843062556, 0.3001312274226111, -0.554507176768169],
   ],
 };
 
@@ -120,8 +126,14 @@ export class TeslaScenePlay extends ScenePlay {
       this.orbitControls.autoRotate = false;
       this.model.roofVisible = name !== 'climate';
       await this.panCamera(view[0], view[1], duration);
+      if (name === 'interior') {
+        await this.model.openPart('door_lf');
+      }
       if (view[2] && view[3]) {
         await this.panCamera(view[2], view[3]);
+      }
+      if (name === 'interior') {
+        await this.model.closePart('door_lf');
       }
     }
   }

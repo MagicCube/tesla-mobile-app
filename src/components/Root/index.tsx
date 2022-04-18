@@ -112,19 +112,16 @@ export function Root() {
         onProgress={handleScenePlayProgress}
       />
       <Switch>
-        {pages.map((page) =>
-          page.component ? (
-            <Route
-              key={page.path}
-              path={`${import.meta.env.BASE_URL}${page.path}`}
-            >
-              <div className={cn(styles.fixed)}>
-                <Header title={page.title} showBackButton />
-                <page.component />
-              </div>
-            </Route>
-          ) : null
-        )}
+        {pages.map((page) => (
+          <Route
+            key={page.path}
+            path={`${import.meta.env.BASE_URL}${page.path}`}
+          >
+            <div className={cn(styles.fixed)}>
+              <Header title={page.title} showBackButton />
+            </div>
+          </Route>
+        ))}
 
         <Route
           exact
