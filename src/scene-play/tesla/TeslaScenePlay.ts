@@ -78,8 +78,6 @@ export class TeslaScenePlay extends ScenePlay {
     });
 
     this.dispatchEvent({ type: 'load' });
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
   }
 
   protected setupControls() {
@@ -97,7 +95,12 @@ export class TeslaScenePlay extends ScenePlay {
       const e = event as SelectEvent;
       if (e.object) {
         const obj = e.object;
-        this.model.handleClick(obj);
+        this.model
+          .handleClick(obj)
+          .then(() => {
+            // 动画播放完毕后
+          })
+          .catch(() => {});
         const pos = new Vector3();
         obj.getWorldPosition(pos);
         // eslint-disable-next-line no-console
